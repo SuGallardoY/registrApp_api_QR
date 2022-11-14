@@ -1,0 +1,20 @@
+<app-barra titulo="Cambiar Contraseña"> </app-barra>
+
+<div class="head">
+  <h1 class="titulo">RegistrApp <br>
+    <span>Duoc</span>UC</h1>
+</div>
+
+
+<ion-content class="ion-padding magnolia">
+  <ion-text color="medium"><i>Correo:  {{ mdl_correo }}</i></ion-text>
+  <ion-item class="ion-margin-top inputRedondo" lines="none">
+    <ion-label position="floating" >Ingrese su nueva contraseña</ion-label>
+    <ion-input  [(ngModel)]="mdl_password_new" type="password"></ion-input>
+  </ion-item>
+  <ion-item class="ion-margin-top inputRedondo" lines="none">
+    <ion-label position="floating">Ingrese contraseña actual</ion-label>
+    <ion-input  [(ngModel)]="mdl_password_actual"  type="password"></ion-input>
+  </ion-item>
+  <ion-button expand="block" class="btn" (click)="UsuarioModificarContrasena()"> Modificar datos </ion-button>
+</ion-content>

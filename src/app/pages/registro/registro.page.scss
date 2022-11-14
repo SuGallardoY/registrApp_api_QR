@@ -1,0 +1,42 @@
+
+* {
+    font-family: 'Mukta', sans-serif;
+}
+
+
+
+.head {
+    height: 150px;
+    background-color: #022c56;
+    margin-top: -20px;
+}
+
+.titulo {
+    text-align: center;
+    padding-top: 50px;
+    color: white;
+}
+
+span {
+    color: #ecc218;
+}
+
+.barra {
+    background-color: radial-gradient(circle, rgba(0,9,36,1) 0%, rgba(9,9,121,1) 53%, rgba(76,0,255,1) 100%);
+
+}
+
+
+.recoverypage {
+    margin-top: 20px;
+}
+
+img {
+    margin-top: 80px;
+}
+
+.btn {
+    margin-top: 20px;
+    --background: #ffba00;
+    color: white;
+}

@@ -1,0 +1,37 @@
+
+<ion-header >
+  <ion-toolbar>
+    <ion-title>RegistrApp</ion-title>
+  </ion-toolbar>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Mukta:wght@800&display=swap" rel="stylesheet">
+</ion-header>
+
+<ion-content class="ion-padding">
+
+  <div class="head">
+    <h1 class="titulo">RegistrApp <br>
+    <span>Duoc</span>UC</h1>
+  </div>
+
+  <div  class="ion-text-center ion-padding">
+
+      <ion-item>
+          <ion-label position="stacked">Usuario</ion-label>
+          <ion-input type="text" [(ngModel)]="mdl_correo"></ion-input>
+          <ion-label position="stacked">Contraseña</ion-label>
+          <ion-input type="password" [(ngModel)]="mdl_password"></ion-input>
+
+      </ion-item>
+  
+
+  <ion-button class="btn" expand="full" (click)="UsuarioLogin()">Ingresar</ion-button>
+
+  <div class="links">
+    <a [routerLink]="['/ingreso']" >¿No tienes cuenta? Crea una aquí</a>
+  </div>
+
+  <img src="assets/imagen-footer.jpeg" alt="">
+</div>
+</ion-content>

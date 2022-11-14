@@ -1,0 +1,28 @@
+<app-barra titulo="Registrar usuario"> </app-barra>
+
+<div class="head">
+  <h1 class="titulo">RegistrApp <br>
+    <span>Duoc</span>UC</h1>
+</div>
+
+
+
+<ion-content class="ion-padding magnolia">
+  <ion-item class="ion-margin-top inputRedondo" lines="none">
+    <ion-label position="floating">Correo</ion-label>
+    <ion-input [(ngModel)]="mdl_mail"></ion-input>
+  </ion-item>
+  <ion-item class="ion-margin-top inputRedondo" lines="none">
+    <ion-label position="floating">Contraseña</ion-label>
+    <ion-input [(ngModel)]="mdl_pass"></ion-input>
+  </ion-item>
+  <ion-item class="ion-margin-top inputRedondo" lines="none">
+    <ion-label position="floating">Nombre</ion-label>
+    <ion-input [(ngModel)]="mdl_nombre"></ion-input>
+  </ion-item>
+  <ion-item class="ion-margin-top inputRedondo" lines="none">
+    <ion-label position="floating">Apellido</ion-label>
+    <ion-input [(ngModel)]="mdl_apellido"></ion-input>
+  </ion-item>
+  <ion-button expand="block" class="oscuro ion-margin-top" (click)="usuarioAlmacenar()" [routerLink]="['/login']"> Registrarse </ion-button>
+</ion-content>

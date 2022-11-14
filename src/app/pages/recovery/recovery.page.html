@@ -1,0 +1,32 @@
+<app-barra titulo="Recuperar mi contraseña"> </app-barra>
+
+<ion-header >
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Mukta:wght@800&display=swap" rel="stylesheet">
+</ion-header>
+
+<ion-content class="ion-padding">
+
+
+  <div class="head">
+    <h1 class="titulo">RegistrApp <br>
+      <span>Duoc</span>UC</h1>
+  </div>
+
+
+  <ion-img src="\assets\Patrick_Recovery.svg"></ion-img>
+
+
+  <div  class="ion-text-center ion-padding">
+    <ion-item>
+      <ion-label position="stacked">Ingrese nueva contraseña</ion-label>
+      <ion-input type="password"[(ngModel)]="mdl_pass"></ion-input>
+    </ion-item>
+    <ion-button class="btn" (click)="traerPass()" expand="full" [routerLink]="['/login']" >Confirmar</ion-button>
+    
+  </div>
+
+
+
+</ion-content>
