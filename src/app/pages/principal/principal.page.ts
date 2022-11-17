@@ -140,8 +140,9 @@ export class PrincipalPage implements OnInit {
         that.mdl_correo, that.mdl_id_clase);
 
 
-    if(data['result'] === 'OK'){
+    if(data['result'][0].RESPUESTA === 'OK'){
       console.log(' todo ok' )
+      this.router.navigate(['principal'])
     }else {
       console.log(' algo falló' )
     }
