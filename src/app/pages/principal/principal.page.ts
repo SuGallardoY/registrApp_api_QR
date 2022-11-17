@@ -115,7 +115,7 @@ export class PrincipalPage implements OnInit {
     const result = await BarcodeScanner.startScan();
    
    if (result.hasContent) {
-     id = result.content.split('|');
+     this.arreglo = result.content.split('|');
      id = this.arreglo[1]
      console.log(id)
      
