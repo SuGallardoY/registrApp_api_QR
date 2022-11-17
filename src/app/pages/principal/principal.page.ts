@@ -7,6 +7,7 @@ import { BarcodeScanner } from '@capacitor-community/barcode-scanner';
 
 
 
+
 @Component({
   selector: 'app-principal',
   templateUrl: './principal.page.html',
@@ -127,6 +128,8 @@ export class PrincipalPage implements OnInit {
 
   async AsistenciaAlmacenar() {
 
+    console.log("pum")
+
     let that = this;
     this.loadingController.create({
        message: 'Validando credenciales',
@@ -139,10 +142,11 @@ export class PrincipalPage implements OnInit {
     let data = await that.api.AsistenciaAlmacenar(
         that.mdl_correo, that.mdl_id_clase);
 
+        console.log(data )
+
 
     if(data['result'][0].RESPUESTA === 'OK'){
       console.log(' todo ok' )
-      this.router.navigate(['principal'])
     }else {
       console.log(' algo falló' )
     }
