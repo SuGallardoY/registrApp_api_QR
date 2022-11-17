@@ -42,6 +42,21 @@ export class ApiService {
     }) 
   } 
 
+  AsistenciaAlmacenar(correo: string, id_clase: string) { 
+
+    this.validador = true;
+
+  
+    let that = this;
+
+    return new Promise(resolve => {
+      resolve(that.http.post(that.rutaBase, {
+        nombreFuncion: "AsistenciaAlmacenar",
+        parametros: [correo, id_clase]
+      }).toPromise())
+    }) 
+  } 
+
 
   UsuarioObtenerNombre(correo: string){
     let that = this;

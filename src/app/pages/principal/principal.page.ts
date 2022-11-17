@@ -18,8 +18,9 @@ export class PrincipalPage implements OnInit {
   mdl_correo: string = '';
   mdl_nombre: string = '';
   mdl_apellido: string = '';
+  arreglo: string[];
+  mdl_id_clase:string = '';
 
-  texto: string = '';
 
 
   isLoggedIn: boolean = false;
@@ -66,24 +67,6 @@ export class PrincipalPage implements OnInit {
  
   }
 
-  async registrarAsistencia() {
-    document.querySelector('body').classList.add('scanner-active');
-
-    await BarcodeScanner.checkPermission({ force: true });
-
-    BarcodeScanner.hideBackground();
-
-    const result = await BarcodeScanner.startScan();
-
-    if (result.hasContent) {
-      this.texto = result.content;
-    }
-
-    document.querySelector('body').classList.remove('scanner-active');
-  };
-
-
-
   async UsuarioObtenerNombre() {
     let that = this;
     this.loadingController.create({
@@ -119,7 +102,57 @@ export class PrincipalPage implements OnInit {
   }
 
 
+  //almacenar asistencia 
 
+  async leerQR(id) {
+    document.querySelector('body').classList.add('scanner-active');
+
+    await BarcodeScanner.checkPermission({ force: true });
+
+    BarcodeScanner.hideBackground();
+
+    const result = await BarcodeScanner.startScan();
+   
+   if (result.hasContent) {
+     id = result.content.split('|');
+     id = this.arreglo[1]
+     console.log(id)
+     
+ }
+
+    document.querySelector('body').classList.remove('scanner-active');
+
+
+ };
+
+  async AsistenciaAlmacenar() {
+
+    let that = this;
+    this.loadingController.create({
+       message: 'Validando credenciales',
+      spinner: 'lines-sharp'
+     }).then(async res => {
+       res.present();
+
+    this.leerQR(that.mdl_id_clase);
+
+    let data = await that.api.AsistenciaAlmacenar(
+        that.mdl_correo, that.mdl_id_clase);
+
+
+    if(data['result'] === 'OK'){
+      console.log(' todo ok' )
+    }else {
+      console.log(' algo falló' )
+    }
+        
+    res.dismiss();
+
+  })
+    
+    }
+
+  
 
 
 }
