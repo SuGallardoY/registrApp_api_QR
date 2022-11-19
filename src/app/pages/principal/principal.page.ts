@@ -117,7 +117,7 @@ export class PrincipalPage implements OnInit {
   async leerQR() {
      //document.querySelector('body').classList.add('scanner-active');
 
-       await BarcodeScanner.checkPermission({ force: true });
+    await BarcodeScanner.checkPermission({ force: true });
 
       BarcodeScanner.hideBackground();
 
@@ -128,6 +128,9 @@ export class PrincipalPage implements OnInit {
           this.mdl_id_clase= this.arreglo[0]  //capturamos el id de la clase Y le asignamos el id de la clase a la variable 
             
             console.log(this.mdl_id_clase) 
+
+            this.presentAlertOK();
+            
      
    }
 
@@ -169,11 +172,10 @@ export class PrincipalPage implements OnInit {
     if(data['result'][0].RESPUESTA === 'OK'){
       console.log(' todo ok' )
 
-    this.presentAlertOK();
-
     }else {
       console.log(' algo falló' )
       this.presentAlertNotOK();
+
     }
         
     res.dismiss();
