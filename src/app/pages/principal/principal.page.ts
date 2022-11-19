@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { NavigationExtras, Router, RouterState } from '@angular/router';
 import { ApiService } from 'src/app/services/api.service';
-import { AlertController, LoadingController, ToastController } from '@ionic/angular';
+import { AlertController, LoadingController, NavController, ToastController } from '@ionic/angular';
 import { LoginPage  } from '../login/login.page';
 import { BarcodeScanner } from '@capacitor-community/barcode-scanner';
+import { TouchSequence } from 'selenium-webdriver';
 
 
 
@@ -40,7 +41,8 @@ export class PrincipalPage implements OnInit {
     private router: Router,
     private loadingController: LoadingController, 
     private api: ApiService,
-    private alertController: AlertController
+    private alertController: AlertController,
+    private toastController: ToastController, public navCtrl: NavController
     ) { 
 
       if (localStorage.getItem('data')) {
@@ -53,7 +55,7 @@ export class PrincipalPage implements OnInit {
     }
 
   ngOnInit() {
-  
+
 
     try {
       this.mdl_correo = this.router.getCurrentNavigation().extras.state.pass;
@@ -125,15 +127,27 @@ export class PrincipalPage implements OnInit {
        const result = await BarcodeScanner.startScan();
    
     if (result.hasContent) {
-         this.arreglo = result.content.split('|'); //le asignamos a un arreglo el resultado de lo que devuelve el QR
-          this.mdl_id_clase= this.arreglo[0]  //capturamos el id de la clase Y le asignamos el id de la clase a la variable 
-            
-          console.log(this.mdl_id_clase)        
+
+      if (this.mdl_id_clase.length === 0){
+        
+        let contenido = result.content
+        this.arreglo = contenido.split('|'); //le asignamos a un arreglo el resultado de lo que devuelve el QR
+        
+        this.mdl_id_clase= this.arreglo[0]  //capturamos el id de la clase Y le asignamos el id de la clase a la variable
+
+      }else {
+
+        this.router.navigate(['principal'])
+
+      }
+    
+              
      }
 
      document.querySelector('body').classList.remove('scanner-active');
 
      
+
 
 
   }
@@ -165,14 +179,21 @@ export class PrincipalPage implements OnInit {
 
 
     if(data['result'][0].RESPUESTA === 'OK'){
+
+      this.mostrarMensaje('Asistencia almacenada correctamente')
+
+
       console.log(' todo ok' )
-      this.presentAlertOK();
+
 
     }else {
       console.log(' algo falló' )
-      this.presentAlertNotOK();
 
+      this.mostrarMensaje('Lo siento, la asistencia fueregistrada previamente ')
+  
     }
+
+
         
     res.dismiss();
 
@@ -184,46 +205,19 @@ export class PrincipalPage implements OnInit {
 
     //alertas para la asistencia
 
-    async presentAlertOK() {
+    
 
-      const alert = await this.alertController.create({
-        message: 'La asistencia fue registrada correctamente',
-        buttons: [
-          {
-            text: 'OK',
-            role: 'confirm',
-            handler: () => {
-              this.handlerMessage = 'Alert confirmed';
-            },
-          },
-        ],
+
+  
+    async mostrarMensaje(mensaje) {
+      const toast = await this.toastController.create({
+        message: mensaje,
+        duration: 3000,
+        position: 'bottom'
       });
   
-      await alert.present();
-  
-      const { role } = await alert.onDidDismiss();
-      this.roleMessage = `Dismissed with role: ${role}`;
-    }   
-
-    async presentAlertNotOK() {
-      const alert = await this.alertController.create({
-        message: 'Lo sentimos, su asistencia ya fue registrada previamente!',
-        buttons: [
-          {
-            text: 'Cerrar',
-            role: 'confirm',
-            handler: () => {
-              this.handlerMessage = 'Alert confirmed';
-            },
-          },
-        ],
-      });
-  
-      await alert.present();
-  
-      const { role } = await alert.onDidDismiss();
-      this.roleMessage = `Dismissed with role: ${role}`;
-    }   
+      await toast.present();
+    }
 
 
 }
