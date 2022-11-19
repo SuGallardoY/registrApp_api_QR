@@ -117,6 +117,7 @@ export class PrincipalPage implements OnInit {
   //almacenar asistencia 
 
   async leerQR() {
+    
      document.querySelector('body').classList.add('scanner-active');
 
 
