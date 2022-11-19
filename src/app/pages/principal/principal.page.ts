@@ -124,17 +124,16 @@ export class PrincipalPage implements OnInit {
 
        const result = await BarcodeScanner.startScan();
    
-         if (result.hasContent) {
+    if (result.hasContent) {
          this.arreglo = result.content.split('|'); //le asignamos a un arreglo el resultado de lo que devuelve el QR
           this.mdl_id_clase= this.arreglo[0]  //capturamos el id de la clase Y le asignamos el id de la clase a la variable 
             
-            console.log(this.mdl_id_clase)        
-     
-   }
+          console.log(this.mdl_id_clase)        
+     }
 
      document.querySelector('body').classList.remove('scanner-active');
 
-     this.presentAlertOK();
+     
 
 
   }
@@ -167,6 +166,7 @@ export class PrincipalPage implements OnInit {
 
     if(data['result'][0].RESPUESTA === 'OK'){
       console.log(' todo ok' )
+      this.presentAlertOK();
 
     }else {
       console.log(' algo falló' )
