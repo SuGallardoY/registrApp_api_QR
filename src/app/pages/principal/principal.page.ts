@@ -117,20 +117,22 @@ export class PrincipalPage implements OnInit {
   async leerQR() {
      //document.querySelector('body').classList.add('scanner-active');
 
-      await BarcodeScanner.checkPermission({ force: true });
+       await BarcodeScanner.checkPermission({ force: true });
 
-     BarcodeScanner.hideBackground();
+      BarcodeScanner.hideBackground();
 
-      const result = await BarcodeScanner.startScan();
+       const result = await BarcodeScanner.startScan();
    
-        if (result.hasContent) {
-        this.arreglo = result.content.split('|');
-           this.mdl_id_clase= this.arreglo[1]  //capturamos el id de la clase
-              console.log(this.mdl_id_clase) //le asignamos el id de la clase a la variable 
-
-         this.mdl_nombre_clase = this.arreglo[0];
+         if (result.hasContent) {
+         this.arreglo = result.content.split('|'); //le asignamos a un arreglo el resultado de lo que devuelve el QR
+          this.mdl_id_clase= this.arreglo[0]  //capturamos el id de la clase Y le asignamos el id de la clase a la variable 
+            
+            console.log(this.mdl_id_clase) 
      
    }
+
+  
+
 
 
     //  document.querySelector('body').classList.remove('scanner-active');
