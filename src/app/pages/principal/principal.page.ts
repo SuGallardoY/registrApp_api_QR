@@ -127,19 +127,21 @@ export class PrincipalPage implements OnInit {
        const result = await BarcodeScanner.startScan();
    
     if (result.hasContent) {
-
-      if (this.mdl_id_clase.length === 0){
         
         let contenido = result.content
         this.arreglo = contenido.split('|'); //le asignamos a un arreglo el resultado de lo que devuelve el QR
+
+        if (this.mdl_id_clase != this.arreglo[0]){
+          this.mdl_id_clase= this.arreglo[0]
+
+          this.mostrarMensaje('Asistencia almacenada correctamente')
+        } else {
+          this.mostrarMensaje('Lo sentimos, la asistencia ya almacenada anteriormente')
+        }
         
-        this.mdl_id_clase= this.arreglo[0]  //capturamos el id de la clase Y le asignamos el id de la clase a la variable
+          //capturamos el id de la clase Y le asignamos el id de la clase a la variable
 
-      }else {
-
-        this.router.navigate(['principal'])
-
-      }
+       
     
               
      }
@@ -180,16 +182,12 @@ export class PrincipalPage implements OnInit {
 
     if(data['result'][0].RESPUESTA === 'OK'){
 
-      this.mostrarMensaje('Asistencia almacenada correctamente')
-
-
       console.log(' todo ok' )
 
 
     }else {
       console.log(' algo falló' )
 
-      this.mostrarMensaje('Lo siento, la asistencia fueregistrada previamente ')
   
     }
 
