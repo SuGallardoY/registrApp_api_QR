@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NavigationExtras, Router, RouterState } from '@angular/router';
 import { ApiService } from 'src/app/services/api.service';
-import { LoadingController, ToastController } from '@ionic/angular';
+import { AlertController, LoadingController, ToastController } from '@ionic/angular';
 import { LoginPage  } from '../login/login.page';
 import { BarcodeScanner } from '@capacitor-community/barcode-scanner';
 
@@ -19,8 +19,16 @@ export class PrincipalPage implements OnInit {
   mdl_correo: string = '';
   mdl_nombre: string = '';
   mdl_apellido: string = '';
+
+  //variables para asistencia
   arreglo: string[];
   mdl_id_clase:string = '';
+  mdl_nombre_clase: string = ''
+
+  //ALERTA
+
+  handlerMessage = '';
+  roleMessage = '';
 
 
 
@@ -31,7 +39,8 @@ export class PrincipalPage implements OnInit {
   constructor(
     private router: Router,
     private loadingController: LoadingController, 
-    private api: ApiService
+    private api: ApiService,
+    private alertController: AlertController
     ) { 
 
       if (localStorage.getItem('data')) {
@@ -105,50 +114,64 @@ export class PrincipalPage implements OnInit {
 
   //almacenar asistencia 
 
-  async leerQR(id) {
-    document.querySelector('body').classList.add('scanner-active');
+  async leerQR() {
+     //document.querySelector('body').classList.add('scanner-active');
 
-    await BarcodeScanner.checkPermission({ force: true });
+      await BarcodeScanner.checkPermission({ force: true });
 
-    BarcodeScanner.hideBackground();
+     BarcodeScanner.hideBackground();
 
-    const result = await BarcodeScanner.startScan();
+      const result = await BarcodeScanner.startScan();
    
-   if (result.hasContent) {
-     this.arreglo = result.content.split('|');
-     id = this.arreglo[1]
-     console.log(id)
+        if (result.hasContent) {
+        this.arreglo = result.content.split('|');
+           this.mdl_id_clase= this.arreglo[1]  //capturamos el id de la clase
+              console.log(this.mdl_id_clase) //le asignamos el id de la clase a la variable 
+
+         this.mdl_nombre_clase = this.arreglo[0];
      
- }
-
-    document.querySelector('body').classList.remove('scanner-active');
+   }
 
 
- };
+    //  document.querySelector('body').classList.remove('scanner-active');
+
+
+  }
 
   async AsistenciaAlmacenar() {
 
-    console.log("pum")
-
     let that = this;
     this.loadingController.create({
-       message: 'Validando credenciales',
+       message: 'Abriendo cámara',
       spinner: 'lines-sharp'
      }).then(async res => {
        res.present();
 
-    this.leerQR(that.mdl_id_clase);
+
+    this.leerQR(); //llamamos la función del QR
+
+    console.log("El id de la clases: ",  that.mdl_id_clase)//como prueba
+    console.log("El nombre de la clase: ",  that.mdl_nombre_clase)//como prueba
+    
+
 
     let data = await that.api.AsistenciaAlmacenar(
         that.mdl_correo, that.mdl_id_clase);
 
         console.log(data )
 
+        console.log(this.mdl_correo)
+        console.log(this.mdl_id_clase)
+
 
     if(data['result'][0].RESPUESTA === 'OK'){
       console.log(' todo ok' )
+
+    this.presentAlertOK();
+
     }else {
       console.log(' algo falló' )
+      this.presentAlertNotOK();
     }
         
     res.dismiss();
@@ -157,7 +180,50 @@ export class PrincipalPage implements OnInit {
     
     }
 
+
+
+    //alertas para la asistencia
+
+    async presentAlertOK() {
+
+      const alert = await this.alertController.create({
+        message: 'La asistencia fue registrada correctamente',
+        buttons: [
+          {
+            text: 'OK',
+            role: 'confirm',
+            handler: () => {
+              this.handlerMessage = 'Alert confirmed';
+            },
+          },
+        ],
+      });
   
+      await alert.present();
+  
+      const { role } = await alert.onDidDismiss();
+      this.roleMessage = `Dismissed with role: ${role}`;
+    }   
+
+    async presentAlertNotOK() {
+      const alert = await this.alertController.create({
+        message: 'Lo sentimos, su asistencia ya fue registrada previamente!',
+        buttons: [
+          {
+            text: 'Cerrar',
+            role: 'confirm',
+            handler: () => {
+              this.handlerMessage = 'Alert confirmed';
+            },
+          },
+        ],
+      });
+  
+      await alert.present();
+  
+      const { role } = await alert.onDidDismiss();
+      this.roleMessage = `Dismissed with role: ${role}`;
+    }   
 
 
 }
