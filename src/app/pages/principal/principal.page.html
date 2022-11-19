@@ -1,4 +1,4 @@
-<ion-header [translucent]="true">
+<ion-header [translucent]="false">
   <ion-toolbar>
 
     <ion-buttons slot="start">
@@ -7,7 +7,7 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content class="ion-padding" [fullscreen]="true">
+<ion-content class="ion-padding">
 
  <ion-menu contentId="main-content">
     <ion-header>
@@ -29,8 +29,12 @@
     </ion-content>
   </ion-menu> 
 
-  
-  <div class="ion-page" id="main-content">
+
+  <div class="ion-page" id="main-content" > 
+
+    <ion-content [fullscreen]="true">
+
+    
     <ion-header>
       <ion-toolbar>
         <ion-buttons slot="start">
@@ -57,9 +61,8 @@
 
         <ion-button class="btn" expand="full" (click)="AsistenciaAlmacenar()">Registra tu asistencia</ion-button>
 
-    </ion-content>
-  
-  
+
+
     
 
 

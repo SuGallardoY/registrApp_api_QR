@@ -34,11 +34,13 @@ export class LoginPage implements OnInit {
 
   ngOnInit() { 
 
-  //   if (window.localStorage.getItem("data" ) != null) {
-  //       this.router.navigate(['principal'])
-  // } else {
-  //     localStorage.clear();       
-  // }
+  if (window.localStorage.getItem("data" ) != null) {
+      this.router.navigate(['principal'])
+   } else {
+    
+  localStorage.clear();
+       
+   }
 
     
     
