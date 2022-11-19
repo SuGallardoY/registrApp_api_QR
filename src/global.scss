@@ -44,3 +44,8 @@
     border-radius: 10px !important;
     border: 2px solid #454955;
 }
+
+body.scanner-active {
+    --background: transparent;
+    --ion-background-color: transparent;
+}
