@@ -117,11 +117,14 @@ export class PrincipalPage implements OnInit {
   //almacenar asistencia 
 
   async leerQR() {
+
     
-     document.querySelector('body').classList.add('scanner-active');
+    
+    
+    document.querySelector('body').classList.add('scanner-active');
 
 
-    await BarcodeScanner.checkPermission({ force: true });
+   await BarcodeScanner.checkPermission({ force: true });
 
       BarcodeScanner.hideBackground();
 
@@ -132,17 +135,16 @@ export class PrincipalPage implements OnInit {
         let contenido = result.content
         this.arreglo = contenido.split('|'); //le asignamos a un arreglo el resultado de lo que devuelve el QR
 
-        if (this.mdl_id_clase != this.arreglo[0]){
+        if (this.mdl_id_clase != this.arreglo[0]){  
           this.mdl_id_clase= this.arreglo[0]
+          //capturamos el id de la clase Y le asignamos el id de la clase a la variable
 
           this.mostrarMensaje('Asistencia almacenada correctamente')
         } else {
           this.mostrarMensaje('Lo sentimos, la asistencia ya almacenada anteriormente')
         }
         
-          //capturamos el id de la clase Y le asignamos el id de la clase a la variable
-
-       
+         
     
               
      }

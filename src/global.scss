@@ -46,6 +46,10 @@
 }
 
 body.scanner-active {
-    --background: transparent;
+    --background: transparent  !important;
     --ion-background-color: transparent !important;
 }
+
+.scroll-content {
+    padding-top: 0px !important;
+  }
