@@ -119,8 +119,6 @@ export class PrincipalPage implements OnInit {
   async leerQR() {
 
     
-    
-    
     document.querySelector('body').classList.add('scanner-active');
 
 
@@ -151,8 +149,7 @@ export class PrincipalPage implements OnInit {
 
      document.querySelector('body').classList.remove('scanner-active');
 
-     
-
+   
 
 
   }
@@ -165,6 +162,8 @@ export class PrincipalPage implements OnInit {
       spinner: 'lines-sharp'
      }).then(async res => {
        res.present();
+
+       this.router.navigate(['qr'])
 
 
     this.leerQR(); //llamamos la función del QR
@@ -194,9 +193,10 @@ export class PrincipalPage implements OnInit {
   
     }
 
-
-        
     res.dismiss();
+
+    this.router.navigate(['principal'])
+
 
   })
     
