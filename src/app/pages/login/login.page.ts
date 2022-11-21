@@ -26,9 +26,7 @@ export class LoginPage implements OnInit {
               private api: ApiService, 
               private loadingController: LoadingController, 
               private toastController: ToastController, public navCtrl: NavController) { 
-
-                
-              }
+            }
 
       
 
@@ -38,18 +36,10 @@ export class LoginPage implements OnInit {
       this.router.navigate(['principal'])
    } else {
     
-  localStorage.clear();
+    localStorage.clear();
        
    }
 
-    
-    
-                
-    
-    
-    
-
-  
   }
 
 
@@ -80,11 +70,8 @@ export class LoginPage implements OnInit {
     this.router.navigate(['principal'], extras);
     }else {
       this.mostrarMensaje('Datos de acceso incorrectos')
-    }
-        
+    }       
         res.dismiss();
-    
-     
         
       })
 

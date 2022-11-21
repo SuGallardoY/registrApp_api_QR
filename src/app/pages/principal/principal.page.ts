@@ -4,7 +4,7 @@ import { ApiService } from 'src/app/services/api.service';
 import { AlertController, LoadingController, NavController, ToastController } from '@ionic/angular';
 import { LoginPage  } from '../login/login.page';
 import { BarcodeScanner } from '@capacitor-community/barcode-scanner';
-import { TouchSequence } from 'selenium-webdriver';
+
 
 
 
@@ -26,14 +26,6 @@ export class PrincipalPage implements OnInit {
   mdl_id_clase:string = '';
   mdl_nombre_clase: string = ''
 
-  //ALERTA
-
-  handlerMessage = '';
-  roleMessage = '';
-
-
-
-  isLoggedIn: boolean = false;
 
 
 
@@ -45,11 +37,9 @@ export class PrincipalPage implements OnInit {
     private toastController: ToastController, public navCtrl: NavController
     ) { 
 
-      if (localStorage.getItem('data')) {
-        
+      if (localStorage.getItem('data')) {       
         this.mdl_correo = JSON.parse(localStorage.getItem('data'));
-        
-        
+              
       } 
 
     }
@@ -60,14 +50,10 @@ export class PrincipalPage implements OnInit {
     try {
       this.mdl_correo = this.router.getCurrentNavigation().extras.state.pass;
     } catch (error) {
-      this.router.navigate(['principal'])
-      
-      
+      this.router.navigate(['principal'])       
     }
 
     this.UsuarioObtenerNombre();
-
-    
 
   
   }
@@ -89,11 +75,10 @@ export class PrincipalPage implements OnInit {
 
       let data = await that.api.UsuarioObtenerNombre(that.mdl_correo);
       
-
-      this.mdl_nombre = data['result'][0].NOMBRE
+      this.mdl_nombre = data['result'][0].NOMBRE  //obtenemos nombre
       console.log('Nombre: ' + this.mdl_nombre)
 
-      this.mdl_apellido = data['result'][0].APELLIDO
+      this.mdl_apellido = data['result'][0].APELLIDO //como prueba
       console.log('APellido: '+ this.mdl_apellido)
 
       res.dismiss();
@@ -118,8 +103,9 @@ export class PrincipalPage implements OnInit {
 
   async leerQR() {
 
-    
-    document.querySelector('body').classList.add('scanner-active');
+  this.router.navigate(['qr'])
+
+  document.querySelector('body').classList.add('scanner-active');
 
 
    await BarcodeScanner.checkPermission({ force: true });
@@ -137,19 +123,16 @@ export class PrincipalPage implements OnInit {
           this.mdl_id_clase= this.arreglo[0]
           //capturamos el id de la clase Y le asignamos el id de la clase a la variable
 
-          this.mostrarMensaje('Asistencia almacenada correctamente')
+          this.mostrarMensaje('Usted está presente')
         } else {
-          this.mostrarMensaje('Lo sentimos, la asistencia ya almacenada anteriormente')
+          this.mostrarMensaje('ERROR: Usted ya está registrado')
         }
         
-         
-    
               
      }
 
      document.querySelector('body').classList.remove('scanner-active');
-
-   
+     this.router.navigate(['principal'])
 
 
   }
@@ -163,58 +146,35 @@ export class PrincipalPage implements OnInit {
      }).then(async res => {
        res.present();
 
-       this.router.navigate(['qr'])
-
-
+      
     this.leerQR(); //llamamos la función del QR
 
-    console.log("El id de la clases: ",  that.mdl_id_clase)//como prueba
-    console.log("El nombre de la clase: ",  that.mdl_nombre_clase)//como prueba
+    console.log("El id de la clase es: ",  that.mdl_id_clase)//como prueba
     
-
-
     let data = await that.api.AsistenciaAlmacenar(
         that.mdl_correo, that.mdl_id_clase);
 
         console.log(data )
 
-        console.log(this.mdl_correo)
-        console.log(this.mdl_id_clase)
-
+        console.log(this.mdl_correo) //como prueba
+        console.log(this.mdl_id_clase) //como prueba
 
     if(data['result'][0].RESPUESTA === 'OK'){
-
       console.log(' todo ok' )
-
-
     }else {
       console.log(' algo falló' )
 
-  
     }
-
     res.dismiss();
-
-    this.router.navigate(['principal'])
-
-
   })
     
     }
-
-
-
-    //alertas para la asistencia
-
-    
-
-
   
     async mostrarMensaje(mensaje) {
       const toast = await this.toastController.create({
         message: mensaje,
         duration: 3000,
-        position: 'bottom'
+        position: 'middle'
       });
   
       await toast.present();
