@@ -7,8 +7,6 @@ import { BarcodeScanner } from '@capacitor-community/barcode-scanner';
 
 
 
-
-
 @Component({
   selector: 'app-principal',
   templateUrl: './principal.page.html',
@@ -103,33 +101,29 @@ export class PrincipalPage implements OnInit {
 
   async leerQR() {
 
-  this.router.navigate(['qr'])
+    let that = this;
 
-  document.querySelector('body').classList.add('scanner-active');
+   this.router.navigate(['qr'])
+
+   document.querySelector('body').classList.add('scanner-active');
 
 
    await BarcodeScanner.checkPermission({ force: true });
 
       BarcodeScanner.hideBackground();
 
-       const result = await BarcodeScanner.startScan();
+      const result = await BarcodeScanner.startScan();
    
     if (result.hasContent) {
-        
-        let contenido = result.content
-        this.arreglo = contenido.split('|'); //le asignamos a un arreglo el resultado de lo que devuelve el QR
 
-        if (this.mdl_id_clase != this.arreglo[0]){  
-          this.mdl_id_clase= this.arreglo[0]
-          //capturamos el id de la clase Y le asignamos el id de la clase a la variable
+    
+         let contenido = result.content
 
-          this.mostrarMensaje('Usted está presente')
-        } else {
-          this.mostrarMensaje('ERROR: Usted ya está registrado')
-        }
-        
+         that.arreglo = contenido.split('|'); //le asignamos a un arreglo el resultado de lo que devuelve el QR
+
+         that.mdl_id_clase= that.arreglo[0];     
               
-     }
+      }
 
      document.querySelector('body').classList.remove('scanner-active');
      this.router.navigate(['principal'])
@@ -139,15 +133,11 @@ export class PrincipalPage implements OnInit {
 
   async AsistenciaAlmacenar() {
 
-    let that = this;
-    this.loadingController.create({
-       message: 'Abriendo cámara',
-      spinner: 'lines-sharp'
-     }).then(async res => {
-       res.present();
+     
+   let that = this;
 
-      
-    this.leerQR(); //llamamos la función del QR
+   await this.leerQR(); //llamamos la función del QR
+
 
     console.log("El id de la clase es: ",  that.mdl_id_clase)//como prueba
     
@@ -161,13 +151,14 @@ export class PrincipalPage implements OnInit {
 
     if(data['result'][0].RESPUESTA === 'OK'){
       console.log(' todo ok' )
+      this.mostrarMensaje('Usted está presente')
     }else {
       console.log(' algo falló' )
+      this.mostrarMensaje('ERROR: Usted ya está registrado')    
+     
 
     }
-    res.dismiss();
-  })
-    
+
     }
   
     async mostrarMensaje(mensaje) {
