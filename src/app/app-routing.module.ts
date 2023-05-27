@@ -1,11 +1,14 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
-import { ApiService } from 'src/app/services/api.service';
 
 const routes: Routes = [
   {
+    path: 'home',
+    loadChildren: () => import('./home/home.module').then( m => m.HomePageModule)
+  },
+  {
     path: '',
-    redirectTo: 'login',
+    redirectTo: 'home',
     pathMatch: 'full'
   },
   {
@@ -14,8 +17,8 @@ const routes: Routes = [
     pathMatch: 'full'
   },
   {
-    path: 'ingreso',
-    redirectTo: 'ingreso',
+    path: 'dashboard',
+    redirectTo: 'dashboard',
     pathMatch: 'full'
   },
   {
@@ -24,43 +27,48 @@ const routes: Routes = [
     pathMatch: 'full'
   },
   {
-    path: 'editar',
-    redirectTo: 'editar',
+    path: 'registro',
+    redirectTo: 'registro',
     pathMatch: 'full'
   },
   {
-    path: 'qr',
-    redirectTo: 'qr',
+    path: 'desayuno',
+    redirectTo: 'desayuno',
     pathMatch: 'full'
-  },
-  {
-    path: '**',
-    redirectTo: 'e404',
-    pathMatch: 'full'
-  },
-  {
-    path: 'ingreso',
-    loadChildren: () => import('./pages/ingreso/ingreso.module').then( m => m.IngresoPageModule)
   },
   {
     path: 'login',
-    loadChildren: () => import('./pages/login/login.module').then( m => m.LoginPageModule)
+    loadChildren: () => import('./login/login.module').then( m => m.LoginPageModule)
+  },
+  {
+    path: 'dashboard',
+    loadChildren: () => import('./dashboard/dashboard.module').then( m => m.DashboardPageModule)
+  },
+  {
+    path: 'registro',
+    loadChildren: () => import('./registro/registro.module').then( m => m.RegistroPageModule)
   },
   {
     path: 'principal',
-    loadChildren: () => import('./pages/principal/principal.module').then( m => m.PrincipalPageModule), canActivate:[ApiService]
+    loadChildren: () => import('./principal/principal.module').then( m => m.PrincipalPageModule)
   },
   {
-    path: 'editar',
-    loadChildren: () => import('./pages/editar/editar.module').then( m => m.EditarPageModule)
+    path: 'desayuno',
+    loadChildren: () => import('./desayuno/desayuno.module').then( m => m.DesayunoPageModule)
+  },  {
+    path: 'almuerzo',
+    loadChildren: () => import('./almuerzo/almuerzo.module').then( m => m.AlmuerzoPageModule)
   },
-  {path: 'e404',
-  loadChildren: () => import('./pages/e404/e404.module').then( m => m.E404PageModule)
-  },
   {
-    path: 'qr',
-    loadChildren: () => import('./pages/qr/qr.module').then( m => m.QrPageModule)
+    path: 'once',
+    loadChildren: () => import('./once/once.module').then( m => m.OncePageModule)
   },
+  {
+    path: 'cena',
+    loadChildren: () => import('./cena/cena.module').then( m => m.CenaPageModule)
+  },
+
+
 
 ];
 
